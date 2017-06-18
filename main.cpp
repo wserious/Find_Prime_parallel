@@ -2,9 +2,10 @@
 #include <vector>
 #include <algorithm>
 #include "mingw.thread.h"
+#include <time.h>
 
 using namespace std;
-
+int amount;
 void primer(int m, int n)
 {
     int count = 0;
@@ -35,6 +36,7 @@ void primer(int m, int n)
 
         }
     }
+    amount = amount+count;
     cout << count <<endl;
     /*for( i = 0; i < count; i++)
     {
@@ -48,14 +50,20 @@ void primer(int m, int n)
 }
 int main()
 {
+    long beginTime = clock();
     int x, y, z, w;
-    cout << "input four numbers:\n";
-    cin >> x >> y;
-    cin >> z >> w;
-//    primer(x, y);
-    std::thread t1(primer, x, y);
-    std::thread t2(primer, z, w);
+//    cout << "input numbers:\n";
+//    cin >> x >> y;
+//    cin >> z >> w;
+
+//    std::thread t1(primer, 1, 10000000);
+//    t1.join();
+    std::thread t1(primer, 1, 6000000);
+    std::thread t2(primer, 6000001, 10000000);
     t1.join();
     t2.join();
+    cout << "amount is " << amount << endl;
+    long endTime = clock();
+    cout << "time: "<< endTime - beginTime << endl;
     return 0;
 }
