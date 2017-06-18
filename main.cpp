@@ -2,27 +2,29 @@
 #include <vector>
 #include <algorithm>
 #include "mingw.thread.h"
+#include <pthread.h>
 #include <time.h>
 
 using namespace std;
 int amount;
-void primer(int m, int n)
+void *primer(void* p_ref)
 {
     int count = 0;
     int j,k,i;
     int min,max;
-
-    if(m >= n) {
-        max = m;
-        min = n;
-    }else {
-        max = n;
-        min = m;
-    }
+    int ref = *(int*)p_ref;
+    cout << "ref is " << ref << endl;
+//    if(m >= n) {
+//        max = m;
+//        min = n;
+//    }else {
+//        max = m;
+//        min = n;
+//    }
 
     vector<int> primers;
 
-    for(i = min ;i <= max;i = i + 2)
+    for(i = 1 ;i <= ref;i = i + 2)
     {
         k = sqrt(i);
         for(j = 2;j <= k;j++)
@@ -46,8 +48,10 @@ void primer(int m, int n)
         else
             cout << endl;
     }*/
-
 }
+
+
+
 int main()
 {
     long beginTime = clock();
@@ -56,12 +60,15 @@ int main()
 //    cin >> x >> y;
 //    cin >> z >> w;
 
-//    std::thread t1(primer, 1, 10000000);
-//    t1.join();
-    std::thread t1(primer, 1, 6000000);
-    std::thread t2(primer, 6000001, 10000000);
-    t1.join();
-    t2.join();
+    pthread_t threads[2];
+    int p_ref = 10000;
+    cout << "p_ref is " << p_ref << endl;
+    int rc1 = pthread_create(&threads[1], NULL, primer , (void*)&p_ref);
+    if(rc1) {
+        cout << "Error: unbale to create thread, " << rc1 << endl;
+        exit(-1);
+    }
+    pthread_exit(NULL);
     cout << "amount is " << amount << endl;
     long endTime = clock();
     cout << "time: "<< endTime - beginTime << endl;
