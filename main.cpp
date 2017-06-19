@@ -52,12 +52,6 @@ int main()
 {
     long beginTime = clock();
     int x, y, z, w;
-//    cout << "input numbers:\n";
-//    cin >> x >> y;
-//    cin >> z >> w;
-
-//    std::thread t1(primer, 1, 10000000);
-//    t1.join();
     std::thread t1(primer, 1, 6000000);
     std::thread t2(primer, 6000001, 10000000);
     t1.join();
