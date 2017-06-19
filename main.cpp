@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <time.h>
 using namespace std;
 
 void primer(int m);
@@ -28,21 +29,26 @@ void primer(int m)
         }
     }
     cout << count <<endl;
-    for( i = 0; i < count; i++)
+    /*for( i = 0; i < count; i++)
     {
         cout << primers[i] ;
         if(i < count - 1)
             cout << " ";
         else
             cout << endl;
-    }
+    }*/
 
 }
 int main()
 {
+    long beginTime = clock();
     int x, y;
-    cout << "please input number:\n";
-    cin >> x;
+    x = 10000000;
+    cout << x << endl;
+//    cout << "please input number:\n";
+//    cin >> x;
     primer(x);
+    long endTime = clock();
+    cout << "time is: " << endTime - beginTime << endl;
     return 0;
 }
