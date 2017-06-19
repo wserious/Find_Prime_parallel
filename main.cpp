@@ -16,23 +16,8 @@ void* primer(void* arg)
 {
     int count = 0;
     int j,k,i;
-//    int min,max;
-//    cout << "ref is" << ref << " &ref is " << &ref<< endl;
     int max = *((int**)arg)[1];
     int min = *((int**)arg)[0];
-//    for(i = 0; i<2; i++ ); {
-//        max[i] = *((int**)arg)[i];
-//    }
-
-//    *((int*)(&arg));
-//    cout << "ref is " << refi << endl;
-//    if(m >= n) {
-//        max = m;
-//        min = n;
-//    }else {
-//        max = m;
-//        min = n;
-//    }
 
     vector<int> primers;
 
@@ -52,14 +37,6 @@ void* primer(void* arg)
     }
     amount = amount+count;
     cout << count <<endl;
-    /*for( i = 0; i < count; i++)
-    {
-        cout << primers[i] ;
-        if(i < count - 1)
-            cout << " ";
-        else
-            cout << endl;
-    }*/
     return NULL;
 }
 
