@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -6,14 +7,25 @@
 #include <time.h>
 
 using namespace std;
+
+void* primer(void* arg);
+
 int amount;
-void *primer(void* p_ref)
+
+void* primer(void* arg)
 {
     int count = 0;
     int j,k,i;
-    int min,max;
-    int ref = *(int*)p_ref;
-    cout << "ref is " << ref << endl;
+//    int min,max;
+//    cout << "ref is" << ref << " &ref is " << &ref<< endl;
+    int max = *((int**)arg)[1];
+    int min = *((int**)arg)[0];
+//    for(i = 0; i<2; i++ ); {
+//        max[i] = *((int**)arg)[i];
+//    }
+
+//    *((int*)(&arg));
+//    cout << "ref is " << refi << endl;
 //    if(m >= n) {
 //        max = m;
 //        min = n;
@@ -24,7 +36,7 @@ void *primer(void* p_ref)
 
     vector<int> primers;
 
-    for(i = 1 ;i <= ref;i = i + 2)
+    for(i = min ;i <= max ;i = i + 2)
     {
         k = sqrt(i);
         for(j = 2;j <= k;j++)
@@ -48,6 +60,7 @@ void *primer(void* p_ref)
         else
             cout << endl;
     }*/
+    return NULL;
 }
 
 
@@ -55,22 +68,38 @@ void *primer(void* p_ref)
 int main()
 {
     long beginTime = clock();
-    int x, y, z, w;
 //    cout << "input numbers:\n";
 //    cin >> x >> y;
 //    cin >> z >> w;
 
+    int res;
+    int x = 1;
+    int y = 6000000;
+    int z = 6000001;
+    int w = 10000000;
+    void* pnum[2] = {&x, &y};
+    void* pnum2[2] = {&z, &w};
     pthread_t threads[2];
-    int p_ref = 10000;
-    cout << "p_ref is " << p_ref << endl;
-    int rc1 = pthread_create(&threads[1], NULL, primer , (void*)&p_ref);
-    if(rc1) {
-        cout << "Error: unbale to create thread, " << rc1 << endl;
-        exit(-1);
+    void *thread_result;
+    pthread_create(&threads[0], NULL, primer, (void *)pnum);
+    pthread_create(&threads[1], NULL, primer, (void *)pnum2);
+    /*if (res != 0) {
+        perror("Thread creation failed");
+        exit(EXIT_FAILURE);
+    }*/
+    printf("Waiting for thread to finish...\n");
+    res = pthread_join(threads[0], &thread_result);
+    res = pthread_join(threads[1], &thread_result);
+    if (res != 0) {
+        perror("Thread join failed");
+        exit(EXIT_FAILURE);
     }
-    pthread_exit(NULL);
-    cout << "amount is " << amount << endl;
+//    printf("Thread joined, it returned %s\n", (char *)thread_result);
+
     long endTime = clock();
-    cout << "time: "<< endTime - beginTime << endl;
+    cout << "amount is " << amount << endl;
+    cout << "time is " << endTime - beginTime << endl;
+    exit(EXIT_SUCCESS);
+
     return 0;
 }
