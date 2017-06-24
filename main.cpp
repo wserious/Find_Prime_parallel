@@ -14,6 +14,7 @@ void primer(int m)
 
     vector<int> primers;
 
+#pragma omp parallel for
     for(i = 1 ;i <= m;i = i + 2)
     {
         k = sqrt(i);
