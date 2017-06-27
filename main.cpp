@@ -2,35 +2,34 @@
 #include <vector>
 #include <algorithm>
 #include <time.h>
+#include <omp.h>
 using namespace std;
 
 void primer(int m);
 
-void primer(int m)
-{
+void primer(int m) {
     int count = 0;
     int j,k,i;
     int min,max;
 
     vector<int> primers;
-
-#pragma omp parallel for
-    for(i = 1 ;i <= m;i = i + 2)
-    {
+#pragma omp parallel for private (j)
+    for(i = 1 ;i <= m;i += 2) {
         k = sqrt(i);
-        for(j = 2;j <= k;j++)
-        {
-            if(i % j ==0)break;
+//#pragma omp parallel for private (j)
+        for(j = 2;j <= k;j++) {
+            if(i % j ==0) {
+                break;
+            }
         }
-        if(j >= k + 1)
-        {
+        if(j >= k + 1) {
             count++;
+//#pragma omp ordered
             primers.push_back(i);
-
         }
     }
     cout << count <<endl;
-    /*for( i = 0; i < count; i++)
+   /* for( i = 0; i < count; i++)
     {
         cout << primers[i] ;
         if(i < count - 1)
@@ -40,15 +39,15 @@ void primer(int m)
     }*/
 
 }
-int main()
-{
+int main() {
     long beginTime = clock();
     int x, y;
     x = 10000000;
     cout << x << endl;
 //    cout << "please input number:\n";
 //    cin >> x;
-    primer(x);
+#pragma omp parallel
+    {primer(x);}
     long endTime = clock();
     cout << "time is: " << endTime - beginTime << endl;
     return 0;
