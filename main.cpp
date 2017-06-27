@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <time.h>
 #include <omp.h>
+#include <cmath>
+
 using namespace std;
 
 void primer(int m);
@@ -13,10 +15,10 @@ void primer(int m) {
     int min,max;
 
     vector<int> primers;
-#pragma omp parallel for private (j)
+#pragma omp parallel for
     for(i = 1 ;i <= m;i += 2) {
         k = sqrt(i);
-//#pragma omp parallel for private (j)
+#pragma omp parallel for
         for(j = 2;j <= k;j++) {
             if(i % j ==0) {
                 break;
