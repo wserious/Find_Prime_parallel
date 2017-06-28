@@ -6,23 +6,22 @@
 #include <cmath>
 
 using namespace std;
-bool goToNext;
 
 void primer(int m);
 
 void primer(int m) {
     vector<int> primers;
     int count = 0;
+
 #pragma omp parallel
     {
-
-        int i, j, k;
+        int i = 0, j = 0, k = 0;
+        bool goToNext;
 #pragma omp for
         for (i = 1; i <= m; i += 2) {
             k = sqrt(i);
             goToNext = false;
             int j_result = 0;
-//#pragma omp parallel for
             for (j = 2; j <= k; j++) {
                 if (goToNext) {
                     continue;
@@ -39,13 +38,12 @@ void primer(int m) {
             if (j >= k + 1) {
 #pragma omp critical
                 {
-                    cout << i << endl;
+//                cout << i << endl;
                     count++;
                     primers.push_back(i);
                 }
             }
         }
-
     }
     cout << count << endl;
 
@@ -54,7 +52,7 @@ void primer(int m) {
 int main() {
     long beginTime = clock();
     int x, y;
-    x = 1000;
+    x = 10000000;
     cout << x << endl;
 //    cout << "please input number:\n";
 //    cin >> x;
